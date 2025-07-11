@@ -22,10 +22,10 @@ You have **45 minutes** to:
 1. Clone this repo and run the app locally.
 2. Find and fix **4-5 bugs** causing incorrect behavior.
 3. Ensure the app:
-   - Loads and displays tasks correctly without infinite loops.
-   - Allows adding new tasks reliably.
+   - Loads and displays tasks correctly without infinite loops. ✅
+   - Allows adding new tasks reliably. ✅
    - Logs task count accurately.
-   - Displays accurate task completion statistics.
+   - Displays accurate task completion statistics. ✅
    - Provides a smooth user experience.
 4. (Optional) Improve code readability or add comments explaining your fixes.
 
@@ -40,6 +40,7 @@ This challenge includes several intentionally introduced issues, such as:
 - **Broken task stats**: completed task count may appear incorrect after toggling.
 - **UI jank**: network latency causing inconsitant and buggy ux.
 - **Implement remove task**: implement remove task functionality
+
 ---
 
 ## 🛠 Setup
@@ -69,3 +70,4 @@ Open http://localhost:5173 in your browser to view the app.
 - Test user flows: adding tasks, toggling completion, watching task counts.
 - Fix bugs incrementally and verify your fixes.
 ---
+```

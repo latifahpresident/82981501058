@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TaskList from "./components/TaskList";
 import TaskInput from "./components/TaskInput";
 import TaskStats from "./components/TaskStats";
-import { fetchTasks, addTask, toggleTask } from "./lib/fakeApi";
+import { fetchTasks, addTask, toggleTask, removeTask } from "./lib/fakeApi";
 import type { Task } from "./types";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false)
   const [error, setError] = useState<string | null>(null);
+  const taskRef = useRef<Task[]>([])
 
   useEffect(() => {
     console.log("Fetching data...");
@@ -21,22 +23,34 @@ const App = () => {
         setError("Failed to load tasks");
         setLoading(false);
       });
-  });
+  }, []);
+
+  useEffect(()=>{
+    taskRef.current = tasks
+  },[tasks])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Task count:", tasks.length);
+      console.log("Task count:", taskRef.current.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   const handleAdd = async (text: string) => {
+    setIsAdding(true)
+    console.log('is add being called ? ')
     const newTask = await addTask(text);
-    setTasks([newTask]);
+
+    setTasks((prev)=> [...prev, newTask]);
+    setIsAdding(false)
   };
 
   const handleRemove = async (id: string) => {
     console.log("id: ", id);
+   const result =  await removeTask(id)
+   console.log("rest: ", result);
+   setTasks(result)
+
   };
 
   const handleToggle = (id: string) => {
@@ -61,8 +75,8 @@ const App = () => {
         <h1 className="text-2xl font-bold">Syndica Task Manager</h1>
       </div>
 
-      <TaskInput onAdd={handleAdd} />
-      <TaskList tasks={tasks} onToggle={handleToggle} />
+      <TaskInput onAdd={handleAdd} loading={isAdding} />
+      <TaskList tasks={tasks} onToggle={handleToggle} handleDeleteClick={handleRemove}/>
       <TaskStats tasks={tasks} />
     </main>
   );

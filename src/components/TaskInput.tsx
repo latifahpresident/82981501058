@@ -2,9 +2,10 @@ import { useState } from "react";
 
 interface TaskInputProps {
   onAdd: (text: string) => void;
+  loading: boolean
 }
 
-const TaskInput = ({ onAdd }: TaskInputProps) => {
+const TaskInput = ({ onAdd, loading }: TaskInputProps) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -34,7 +35,7 @@ const TaskInput = ({ onAdd }: TaskInputProps) => {
         type="submit"
         className="px-4 py-2 bg-[#007AFF] text-white rounded hover:bg-bg-[#009AFF] transition cursor-pointer"
       >
-        Add
+        {loading ? "...loading" :"Add" }
       </button>
     </form>
   );

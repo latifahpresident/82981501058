@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import type { Task } from "../types";
 
 interface TaskStatsProps {
@@ -6,18 +6,12 @@ interface TaskStatsProps {
 }
 
 const TaskStats = ({ tasks }: TaskStatsProps) => {
-  const [completed, setCompleted] = useState(0);
+  const completedCount = useMemo(()=> tasks.filter((t) => t.completed).length,[tasks])
 
-  useEffect(() => {
-    const count = tasks.filter((t) => t.completed).length;
-    setCompleted(count);
-  }, []);
-
-  const total = tasks.length;
 
   return (
     <div className="text-sm text-gray-600">
-      ✅ {completed} of {total} tasks complete
+      ✅ {completedCount} of {tasks.length} tasks complete
     </div>
   );
 };
